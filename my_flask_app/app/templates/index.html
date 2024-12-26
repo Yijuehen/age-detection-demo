@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang='en'>
+<head>
+    <meta charset="UTF-8">
+    <title>人脸年龄检测</title>
+    <link rel='stylesheet' href="{{ url_for('static', filename='css/style.css') }}">
+   
+</head>
+<body>
+    <div class="container">
+        <h1>人脸年龄检测</h1>
+        <div class="upload-buttons">
+            <button onclick="document.getElementById('image-upload').click()">上传图片</button>
+            <button onclick="document.getElementById('video-upload').click()">上传视频</button>
+        </div>
+        <form id="image-form" action="{{ url_for('main.index') }}" method="post" enctype="multipart/form-data" style="display: none;">
+            <input type="file"   id="image-upload" name="file" accept="image/*" onchange="document.getElementById('image-form').submit()">
+        </form>
+        <form id="video-form" action="{{ url_for('main.index') }}" method="post" enctype="multipart/form-data" style="display: none;">
+            <input type="file"   id="video-upload" name="file" accept="video/*" onchange="document.getElementById('video-form').submit()">
+        </form>
+        {% if result %}
+            <h2>检测结果:</h2>
+            {% if result_type == 'image' %}
+                <img src="{{ result }}" width="200" alt="检测结果">
+            {% elif result_type == 'video' %}
+                <video controls width="500" autoplay >
+                    <source src="{{ result }}"  type="video/mp4" sizes="500">
+                    您的浏览器不支持视频播放。
+                </video>
+            {% endif %}
+        {% endif %}
+    </div>
+    <script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
+</body>
+</html>
